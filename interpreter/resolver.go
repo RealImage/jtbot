@@ -37,7 +37,7 @@ func init() {
 	}
 }
 
-func ProcessQuery(q string) slack.PostMessageParameters {
+func ProcessQuery(q string, api *slack.Client, msg *slack.MessageEvent) slack.PostMessageParameters {
 	params := GetSlackMessage()
 	attachment := &params.Attachments[0]
 
@@ -50,14 +50,31 @@ func ProcessQuery(q string) slack.PostMessageParameters {
 			}
 			switch v.Category {
 			case "Show Qube Wire Transaction Report of company":
-				r, err := GetReportStatus(false)
+				r, err := GetQWCompanyTransactions(q)
 				if err != nil {
 					log.Println("Error:", err)
 					attachment.Pretext = err.Error()
 					return params
 				}
-				r.FormatSlackMessage(attachment)
+
+				f := CreateCSVOfTransactions(r)
+
+				_, err = api.UploadFile(slack.FileUploadParameters{
+					File:           f,
+					Filename:       f,
+					Filetype:       "csv",
+					Title:          "Company Transaction Link",
+					Channels:       []string{msg.Channel},
+					InitialComment: "@" + msg.Username,
+				})
+				if err != nil {
+					log.Println("Error:", err)
+					attachment.Pretext = err.Error()
+					return params
+				}
+
 				return params
+
 			case "Show Justickets Order":
 				order, err := GetOrder(q)
 				if err != nil {
@@ -67,6 +84,7 @@ func ProcessQuery(q string) slack.PostMessageParameters {
 				}
 				order.FormatSlackMessage(attachment)
 				return params
+
 			case "Show Justickets Bill":
 				order, err := GetOrder(q)
 				if err != nil {

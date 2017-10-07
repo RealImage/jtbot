@@ -37,7 +37,7 @@ func respond(rtm *slack.RTM, api *slack.Client, msg *slack.MessageEvent, prefix 
 	text = strings.Replace(text, prefix, "", -1)
 	text = strings.TrimSpace(text)
 	text = strings.ToLower(text)
-	response := interpreter.ProcessQuery(text)
+	response := interpreter.ProcessQuery(text, api, msg)
 	if response.Attachments[0].Pretext == "" {
 		rtm.SendMessage(rtm.NewOutgoingMessage(
 			`I'm sorry, I don't understand! Sometimes I have an easier time with a few simple keywords.`,

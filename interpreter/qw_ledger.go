@@ -11,6 +11,10 @@ import (
 	"os"
 	"time"
 
+	"strings"
+
+	"bytes"
+
 	"github.com/maknahar/go-utils"
 )
 
@@ -34,9 +38,31 @@ type QWCompanyTransactions struct {
 	} `json:"lines"`
 }
 
-func GetQWCompanyTransactions() ([]*QWCompanyTransactions, error) {
-	url := os.Getenv("REPORT_STATUS")
-	res, err := http.Get(url)
+type QWLedgerCompanyTransactionsRequestDTO struct {
+	Query struct {
+		Must struct {
+			Terms []struct {
+				Company string `json:"company"`
+			} `json:"terms"`
+		} `json:"must"`
+	} `json:"query"`
+}
+
+func GetQWCompanyTransactions(msg string) ([]*QWCompanyTransactions, error) {
+	id := ""
+	for _, v := range strings.Split(msg, " ") {
+		if go_utils.IsValidUUIDV4(v) {
+			id = v
+			break
+		}
+	}
+
+	payload := new(QWLedgerCompanyTransactionsRequestDTO)
+	payload.Query.Must.Terms[0].Company = id
+	pd, _ := json.Marshal(payload)
+
+	url := os.Getenv("QW_LEDGER_URL")
+	res, err := http.Post(url+"/v1/transactions/_search", "appliacation/json", bytes.NewBuffer(pd))
 	if err != nil {
 		return nil, fmt.Errorf("Error in getting company data %v", err)
 	}
@@ -60,9 +86,10 @@ func GetQWCompanyTransactions() ([]*QWCompanyTransactions, error) {
 	return order, nil
 }
 
-func CreateCSVOfTransactions(txns []*QWCompanyTransactions) {
+func CreateCSVOfTransactions(txns []*QWCompanyTransactions) string {
 	// Create a csv file
-	f, err := os.Create("transaction_report_" + txns[0].ID + time.Now().String() + ".csv")
+	name := "transaction_report_" + txns[0].ID + time.Now().String() + ".csv"
+	f, err := os.Create(name)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -81,4 +108,5 @@ func CreateCSVOfTransactions(txns []*QWCompanyTransactions) {
 		w.Write(record)
 	}
 	w.Flush()
+	return name
 }
