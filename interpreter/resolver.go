@@ -59,7 +59,7 @@ func ProcessQuery(q string, api *slack.Client, msg *slack.MessageEvent) slack.Po
 
 				f := CreateCSVOfTransactions(r)
 
-				_, err = api.UploadFile(slack.FileUploadParameters{
+				file, err := api.UploadFile(slack.FileUploadParameters{
 					File:           f,
 					Filename:       f,
 					Filetype:       "csv",
@@ -72,7 +72,9 @@ func ProcessQuery(q string, api *slack.Client, msg *slack.MessageEvent) slack.Po
 					attachment.Pretext = err.Error()
 					return params
 				}
-
+				attachment.Pretext = "Report has been uploaded"
+				attachment.Title = file.Title
+				attachment.TitleLink = file.PermalinkPublic
 				return params
 
 			case "Show Justickets Order":

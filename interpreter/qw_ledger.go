@@ -41,11 +41,13 @@ type QWCompanyTransactions struct {
 type QWLedgerCompanyTransactionsRequestDTO struct {
 	Query struct {
 		Must struct {
-			Terms []struct {
-				Company string `json:"company"`
-			} `json:"terms"`
+			Terms []Terms `json:"terms"`
 		} `json:"must"`
 	} `json:"query"`
+}
+
+type Terms struct {
+	Company string `json:"company"`
 }
 
 func GetQWCompanyTransactions(msg string) ([]*QWCompanyTransactions, error) {
@@ -58,7 +60,7 @@ func GetQWCompanyTransactions(msg string) ([]*QWCompanyTransactions, error) {
 	}
 
 	payload := new(QWLedgerCompanyTransactionsRequestDTO)
-	payload.Query.Must.Terms[0].Company = id
+	payload.Query.Must.Terms = append(payload.Query.Must.Terms, Terms{Company: id})
 	pd, _ := json.Marshal(payload)
 
 	url := os.Getenv("QW_LEDGER_URL")
