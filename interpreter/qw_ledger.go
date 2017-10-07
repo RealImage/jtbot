@@ -101,6 +101,7 @@ func CreateCSVOfTransactions(txns []*QWCompanyTransactions) string {
 
 	// Write Unmarshaled json data to CSV file
 	w := csv.NewWriter(f)
+	w.Write(GetHeader())
 
 	for _, obj := range txns {
 		lines := make(map[string]int64, 0)
@@ -143,4 +144,38 @@ func CreateCSVOfTransactions(txns []*QWCompanyTransactions) string {
 	}
 	w.Flush()
 	return name
+}
+
+func GetHeader() []string {
+	var record []string
+	//Txn ID
+	record = append(record, "Txn ID")
+
+	//Time Stamp
+	record = append(record, "Timestamp")
+
+	//Order ID
+	record = append(record, "Order ID")
+
+	//Action
+	record = append(record, "Action")
+
+	//Debit
+	record = append(record, "Debit")
+
+	//Credit
+	record = append(record, "Credit")
+
+	//QW.WIP
+	record = append(record, "QW.WIP")
+
+	//QW.Revenue
+	record = append(record, "QW.REVENUE")
+
+	//Stripe
+	record = append(record, "STRIPE")
+
+	//Credit Given
+	record = append(record, "CREDITSGIVEN")
+	return record
 }
