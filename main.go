@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/maknahar/jtbot/interpreter"
+	"github.com/RealImage/qbot/interpreter"
 	"github.com/nlopes/slack"
 )
 

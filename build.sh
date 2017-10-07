@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #Create a local .env file
-source $GOPATH/src/github.com/maknahar/jtbot/.env
+source $GOPATH/src/github.com/RealImage/qbot/.env
 
 echo "Doing some cleaning ..."
 go clean
@@ -39,5 +39,5 @@ go test -p=1 ./...
 if [ $? == 0 ]; then
     echo "Done."
 	echo "## Starting service ##"
-    ./jtbot -v
+    ./qbot -v
 fi

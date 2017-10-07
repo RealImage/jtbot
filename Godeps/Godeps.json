@@ -1,6 +1,6 @@
 {
-	"ImportPath": "github.com/maknahar/jtbot",
-	"GoVersion": "go1.8",
+	"ImportPath": "github.com/RealImage/qbot",
+	"GoVersion": "go1.9",
 	"GodepVersion": "v79",
 	"Packages": [
 		"./..."
@@ -8,8 +8,8 @@
 	"Deps": [
 		{
 			"ImportPath": "github.com/julienschmidt/httprouter",
-			"Comment": "v1.1-41-g8a45e95",
-			"Rev": "8a45e95fc75cb77048068a62daed98cc22fdac7c"
+			"Comment": "v1.1-3-g6aacfd5",
+			"Rev": "6aacfd5ab513e34f7e64ea9627ab9670371b34e7"
 		},
 		{
 			"ImportPath": "github.com/maknahar/go-utils",
@@ -22,7 +22,7 @@
 		},
 		{
 			"ImportPath": "golang.org/x/net/websocket",
-			"Rev": "61557ac0112b576429a0df080e1c2cef5dfbb642"
+			"Rev": "1c05540f6879653db88113bc4a2b70aec4bd491f"
 		}
 	]
 }
