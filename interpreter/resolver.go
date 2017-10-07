@@ -8,6 +8,8 @@ import (
 	"os"
 	"regexp"
 
+	"time"
+
 	"github.com/nlopes/slack"
 )
 
@@ -60,12 +62,14 @@ func ProcessQuery(q string, api *slack.Client, msg *slack.MessageEvent) slack.Po
 				f := CreateCSVOfTransactions(r)
 
 				_, err = api.UploadFile(slack.FileUploadParameters{
-					File:     f,
-					Filename: f,
-					Filetype: "csv",
-					Title:    "Company Transaction Link",
-					Channels: []string{msg.Channel},
+					File:           f,
+					Filename:       f,
+					Filetype:       "csv",
+					Title:          "Company Transaction Report",
+					Channels:       []string{msg.Channel},
+					InitialComment: "Transaction Report for company with id `" + r[0].Data.Company + "` as of `" + time.Now().UTC().String() + "`",
 				})
+
 				if err != nil {
 					log.Println("Error:", err)
 					attachment.Pretext = err.Error()

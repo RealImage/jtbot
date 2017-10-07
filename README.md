@@ -1,2 +1,2 @@
 # jtbot
-Bot for justickets.in
+Slack Bot for Qube Wire.

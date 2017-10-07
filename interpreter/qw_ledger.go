@@ -92,7 +92,7 @@ func GetQWCompanyTransactions(msg string) ([]*QWCompanyTransactions, error) {
 
 func CreateCSVOfTransactions(txns []*QWCompanyTransactions) string {
 	// Create a csv file
-	name := "transaction_report_" + txns[0].ID + time.Now().String() + ".csv"
+	name := "transaction_report_" + txns[0].Data.Company + time.Now().String() + ".csv"
 	f, err := os.Create(name)
 	if err != nil {
 		fmt.Println(err)
