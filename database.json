@@ -1,75 +1,119 @@
 {
-  "version":0.1,
-  "messages":[
+  "version": 0.1,
+  "messages": [
     {
       "category": "Help",
-      "prefixes":["help"],
-      "prefixMandatory":true,
-      "case":false,
-      "formats":[],
-      "postfixes":[],
-      "response":"There is two ways I can help you. Either say hi! or \n Order <block code>"
+      "prefixes": [
+        "help"
+      ],
+      "prefixMandatory": true,
+      "case": false,
+      "formats": [],
+      "postfixes": [],
+      "response": "There is two ways I can help you. Either say hi! or \n Order <block code>"
     },
     {
       "category": "greetings",
-      "prefixes":[],
-      "case":false,
-      "formats":["hi","hello","hey","what's up"],
-      "postfixes":["!"],
-      "response":"What's up buddy!?!?!"
+      "prefixes": [],
+      "case": false,
+      "formats": [
+        "hi",
+        "hello",
+        "hey",
+        "what's up"
+      ],
+      "postfixes": [
+        "!"
+      ],
+      "response": "What's up buddy!?!?!"
     },
     {
       "category": "HowAreYou",
-      "prefixes":[],
-      "case":false,
-      "formats":["how's it going","How are you","what is going on"],
-      "postfixes":["!"],
-      "response":"Good. How are you?"
+      "prefixes": [],
+      "case": false,
+      "formats": [
+        "how's it going",
+        "How are you",
+        "what is going on"
+      ],
+      "postfixes": [
+        "!"
+      ],
+      "response": "Good. How are you?"
     },
     {
       "category": "HowAreYouResponse",
-      "prefixes":[],
-      "case":false,
-      "formats":["Good","I am good","Awesome","I am awesome"],
-      "postfixes":["!"],
-      "response":"Good to know. Take care."
+      "prefixes": [],
+      "case": false,
+      "formats": [
+        "Good",
+        "I am good",
+        "Awesome",
+        "I am awesome"
+      ],
+      "postfixes": [
+        "!"
+      ],
+      "response": "Good to know. Take care."
     },
     {
       "category": "Show Justickets Order",
-      "prefixes":["Show me the order","Order "],
-      "prefixMandatory":true,
-      "case":false,
-      "formats":[],
-      "postfixes":[],
-      "response":""
+      "prefixes": [
+        "Show me the order",
+        "Order "
+      ],
+      "prefixMandatory": true,
+      "case": false,
+      "formats": [],
+      "postfixes": [],
+      "response": ""
     },
     {
       "category": "Show Justickets Bill",
-      "prefixes":["Show me the bill","bill "],
-      "prefixMandatory":true,
-      "case":false,
-      "formats":[],
-      "postfixes":[],
-      "response":""
+      "prefixes": [
+        "Show me the bill",
+        "bill "
+      ],
+      "prefixMandatory": true,
+      "case": false,
+      "formats": [],
+      "postfixes": [],
+      "response": ""
     },
     {
       "category": "Staging Report is Down",
-      "prefixes":[],
-      "prefixMandatory":false,
-      "case":false,
-      "formats":["JT-Staging-Reports-v2 is missing","staging report sync activity"],
-      "postfixes":[],
-      "response":""
+      "prefixes": [],
+      "prefixMandatory": false,
+      "case": false,
+      "formats": [
+        "JT-Staging-Reports-v2 is missing",
+        "staging report sync activity"
+      ],
+      "postfixes": [],
+      "response": ""
     },
     {
       "category": "Report is Down",
-      "prefixes":[],
-      "prefixMandatory":false,
-      "case":false,
-      "formats":["JT-Reports is missing","report sync activity"],
-      "postfixes":[],
-      "response":""
+      "prefixes": [],
+      "prefixMandatory": false,
+      "case": false,
+      "formats": [
+        "JT-Reports is missing",
+        "report sync activity"
+      ],
+      "postfixes": [],
+      "response": ""
+    },
+    {
+      "category": "Show Qube Wire Transaction Report of company",
+      "prefixes": [],
+      "prefixMandatory": false,
+      "case": false,
+      "formats": [
+        "Transaction Report"
+      ],
+      "postfixes": [],
+      "response": ""
     }
-
   ]
 }

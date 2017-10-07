@@ -49,6 +49,15 @@ func ProcessQuery(q string) slack.PostMessageParameters {
 				return params
 			}
 			switch v.Category {
+			case "Show Qube Wire Transaction Report of company":
+				r, err := GetReportStatus(false)
+				if err != nil {
+					log.Println("Error:", err)
+					attachment.Pretext = err.Error()
+					return params
+				}
+				r.FormatSlackMessage(attachment)
+				return params
 			case "Show Justickets Order":
 				order, err := GetOrder(q)
 				if err != nil {

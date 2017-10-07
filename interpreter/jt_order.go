@@ -6,9 +6,8 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"strings"
-
 	"strconv"
+	"strings"
 
 	"github.com/maknahar/go-utils"
 	"github.com/nlopes/slack"
