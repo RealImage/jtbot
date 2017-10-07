@@ -15,6 +15,8 @@ import (
 
 	"bytes"
 
+	"strconv"
+
 	"github.com/maknahar/go-utils"
 )
 
@@ -34,7 +36,7 @@ type QWCompanyTransactions struct {
 	} `json:"data"`
 	Lines []struct {
 		Account string `json:"account"`
-		Delta   int    `json:"delta"`
+		Delta   int64  `json:"delta"`
 	} `json:"lines"`
 }
 
@@ -99,13 +101,43 @@ func CreateCSVOfTransactions(txns []*QWCompanyTransactions) string {
 
 	// Write Unmarshaled json data to CSV file
 	w := csv.NewWriter(f)
+
 	for _, obj := range txns {
+		lines := make(map[string]int64, 0)
+		for _, v := range obj.Lines {
+			lines[v.Account] = v.Delta
+		}
+
 		var record []string
-		//Company ID
+		//Txn ID
 		record = append(record, obj.ID)
 
 		//Time Stamp
 		record = append(record, obj.Timestamp.String())
+
+		//Order ID
+		record = append(record, obj.Data.Order)
+
+		//Action
+		record = append(record, obj.Data.Action)
+
+		//Debit
+		record = append(record, strconv.FormatInt(lines[obj.Data.Company+"DEBIT"], 10))
+
+		//Credit
+		record = append(record, strconv.FormatInt(lines[obj.Data.Company+"CREDIT"], 10))
+
+		//QW.WIP
+		record = append(record, strconv.FormatInt(lines["QW.WIP"], 10))
+
+		//QW.Revenue
+		record = append(record, strconv.FormatInt(lines["QW.REVENUE"], 10))
+
+		//Stripe
+		record = append(record, strconv.FormatInt(lines["STRIPE"], 10))
+
+		//Credit Given
+		record = append(record, strconv.FormatInt(lines["CREDITSGIVEN"], 10))
 
 		w.Write(record)
 	}
