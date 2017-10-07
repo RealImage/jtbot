@@ -116,6 +116,9 @@ func CreateCSVOfTransactions(txns []*QWCompanyTransactions) string {
 		//Time Stamp
 		record = append(record, obj.Timestamp.String())
 
+		//Time Stamp
+		record = append(record, strconv.Itoa(obj.Data.Amount))
+
 		//Order ID
 		record = append(record, obj.Data.Order)
 
@@ -153,6 +156,9 @@ func GetHeader() []string {
 
 	//Time Stamp
 	record = append(record, "Timestamp")
+
+	//Amount
+	record = append(record, "Amount")
 
 	//Order ID
 	record = append(record, "Order ID")
