@@ -53,6 +53,10 @@ func ProcessQuery(q string, api *slack.Client, msg *slack.MessageEvent) slack.Po
 			switch v.Category {
 			case "Show Qube Wire Transaction Report of company":
 				r, err := GetQWCompanyTransactions(q)
+				if len(r) == 0 {
+					attachment.Pretext = "No transactions found"
+					return params
+				}
 				if err != nil {
 					log.Println("Error:", err)
 					attachment.Pretext = err.Error()

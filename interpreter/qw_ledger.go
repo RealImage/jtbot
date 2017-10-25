@@ -65,11 +65,19 @@ func GetQWCompanyTransactions(msg string) ([]*QWCompanyTransactions, error) {
 	payload.Query.Must.Terms = append(payload.Query.Must.Terms, Terms{Company: id})
 	pd, _ := json.Marshal(payload)
 
-	url := os.Getenv("QW_LEDGER_URL")
-	res, err := http.Post(url+"/v1/transactions/_search", "appliacation/json", bytes.NewBuffer(pd))
+	ledgerEndpoint := os.Getenv("QW_LEDGER_URL")
+	ledgerToken := os.Getenv("QW_LEDGER_TOKEN")
+	req, _ := http.NewRequest("POST", ledgerEndpoint+"/v1/transactions/_search", bytes.NewBuffer(pd))
+	req.Header.Set("Content-Type", "application/json")
+	if ledgerToken != "" {
+		req.Header.Add("Authorization", ledgerToken)
+	}
+	client := &http.Client{}
+	res, err := client.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("Error in getting company data %v", err)
 	}
+	defer res.Body.Close()
 
 	d, err := ioutil.ReadAll(res.Body)
 	if err != nil {
@@ -91,9 +99,11 @@ func GetQWCompanyTransactions(msg string) ([]*QWCompanyTransactions, error) {
 }
 
 func CreateCSVOfTransactions(txns []*QWCompanyTransactions) string {
+	if len(txns) == 0 {
+		return ""
+	}
 	// Create a csv file
-	name := "transaction_report_" + txns[0].Data.Company + time.Now().String() + ".csv"
-	f, err := os.Create(name)
+	f, err := ioutil.TempFile("", "transaction_report_"+txns[0].Data.Company)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -146,7 +156,7 @@ func CreateCSVOfTransactions(txns []*QWCompanyTransactions) string {
 		w.Write(record)
 	}
 	w.Flush()
-	return name
+	return f.Name()
 }
 
 func GetHeader() []string {
